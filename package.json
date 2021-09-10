@@ -45,5 +45,9 @@
     "immer": "^6.0.1",
     "tslib": "^1.11.1",
     "use-sync-external-store": "^0.0.0-experimental-8f96c6b2a-20210909"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
