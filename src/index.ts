@@ -1,5 +1,5 @@
-import immer, { Draft } from 'immer';
-import { useSyncExternalStoreExtra as useSyncExternalStore } from 'use-sync-external-store/extra';
+import produce, { Draft } from 'immer';
+import { useSyncExternalStoreWithSelector as useSyncExternalStore } from 'use-sync-external-store/with-selector';
 
 type Listener = Function;
 
@@ -31,7 +31,7 @@ export function createStore<State>(initialState: State) {
     },
     on(listener: Listener) {
       listeners.push(listener);
-      return () => this.off(listener);
+      return () => this?.off(listener);
     },
     off(listener: Listener) {
       listeners = listeners.filter(fn => fn !== listener);
@@ -39,9 +39,9 @@ export function createStore<State>(initialState: State) {
     reset() {
       this.set(initialState);
     },
-    mutate(updater: (draft: Draft<State>) => void | State) {
+    mutate(updater: (draft: Draft<State>) => void) {
       let currState = this.get();
-      let nextState = immer(currState, updater);
+      let nextState = produce(currState, updater);
       if (nextState !== currState) this.set(nextState as State);
     },
   };
@@ -50,7 +50,7 @@ export function createStore<State>(initialState: State) {
     selector: (state: State) => DerivedValue = state =>
       (state as unknown) as DerivedValue
   ) {
-    const selection = useSyncExternalStore(store.on, store.get, selector);
+    const selection = useSyncExternalStore(store.on, store.get, null, selector);
     return selection;
   }
 

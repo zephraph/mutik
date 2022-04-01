@@ -1,7 +1,10 @@
 {
   "name": "@zephraph/mutik",
-  "author": "Jared Palmer",
-  "module": "dist/mutik.esm.js",
+  "author": "Justin Bennett <oss@just-be.dev>",
+  "contributors": [
+    "Jared Palmer"
+  ],
+  "module": "dist/index.mjs",
   "description": "A fork of Jared Palmer's Mutik that uses useSyncExternalStore instead of useMutableSource",
   "version": "1.0.0",
   "license": "MIT",
@@ -11,19 +14,13 @@
     "dist"
   ],
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "start": "npm run build --watch",
+    "build": "tsup ./src/index.ts --clean --format cjs,esm",
+    "test": "vitest --globals --environment jsdom",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "react": ">=16"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
   },
   "prettier": {
     "printWidth": 80,
@@ -32,19 +29,21 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@testing-library/react": "^13.0.0",
     "@types/jest": "^25.1.4",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
-    "husky": "^4.2.3",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "tsdx": "^0.14.1",
-    "typescript": "^3.8.3"
+    "@types/use-sync-external-store": "^0.0.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-test-renderer": "^17.0.0",
+    "tsup": "^5.12.1",
+    "typescript": "^3.8.3",
+    "vitest": "^0.8.1"
   },
   "dependencies": {
-    "immer": "^6.0.1",
-    "tslib": "^1.11.1",
-    "use-sync-external-store": "^0.0.0-experimental-8f96c6b2a-20210909"
+    "immer": "^9.0.12",
+    "use-sync-external-store": "^1.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
